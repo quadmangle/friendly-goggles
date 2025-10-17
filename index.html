@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <title>OPS Online Support — Remote Worker Assistants</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Strict CSP: self-origin only; no unsafe-inline (we use nonces) -->
+  <!-- If you rotate the nonce, change it below on <style> and <script> too -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'nonce-riley-ops-2025';
+    style-src  'self' 'nonce-riley-ops-2025';
+    img-src    'self' data:;
+    font-src   'self';
+    connect-src 'self';
+    frame-ancestors 'none';
+    base-uri 'self';
+    form-action 'self';
+    upgrade-insecure-requests;">
+  <meta name="color-scheme" content="dark light">
+
+  <style nonce="riley-ops-2025">
+    :root{
+      /* Base palette (dark-first) */
+      --bg:#0b0e15; --fg:#e8eef6; --muted:#a9b3c3; --line:#212738;
+      --card:#121726; --glass:rgba(255,255,255,.06);
+      --accent:#7aa8ff; --accent-2:#22c3a6; --accent-3:#ff8ab3; --accent-4:#c466ff;
+      --radius:16px; --gap:1rem; --pad:1rem; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    html[data-theme="light"]{
+      --bg:#f7f9fc; --fg:#0b1220; --muted:#49566a; --line:#dbe2ee;
+      --card:#ffffff; --glass:rgba(0,0,0,.04);
+      --shadow:0 8px 24px rgba(0,0,0,.12);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+      font: 16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Noto Sans,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji}
+    a{color:inherit}
+    .wrap{max-width:1200px;margin:0 auto;padding:1rem}
+    header{position:sticky;top:0;z-index:50;background:color-mix(in oklab,var(--bg),transparent 10%);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
+    nav{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem 0}
+    .brand{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.3px}
+    .brand .dot{width:.75rem;height:.75rem;border-radius:999px;background:var(--accent)}
+    .menu{display:flex;gap:.5rem;flex-wrap:wrap}
+    .menu a{padding:.6rem .9rem;border-radius:12px;border:1px solid var(--line);text-decoration:none}
+    .menu a:focus-visible{outline:3px solid var(--accent)}
+    .toggles{display:flex;gap:.5rem;align-items:center}
+    .switch{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:999px;padding:.35rem .6rem;cursor:pointer;user-select:none}
+    .switch [data-role="knob"]{width:1.1rem;height:1.1rem;border-radius:999px;background:var(--accent)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:1px solid var(--line);border-radius:12px;padding:.7rem 1rem;background:linear-gradient(180deg, color-mix(in oklab,var(--card),#fff 2%), color-mix(in oklab,var(--card),#000 4%));box-shadow:var(--shadow);text-decoration:none}
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(0)}
+    .btn.primary{border-color:transparent;background:linear-gradient(180deg,color-mix(in oklab,var(--accent),#fff 12%),color-mix(in oklab,var(--accent),#000 8%));color:#061020}
+    .grid{display:grid;gap:1rem}
+    @media(min-width:720px){.grid.cols-2{grid-template-columns:1fr 1fr}}
+    @media(min-width:960px){.grid.cols-3{grid-template-columns:1fr 1fr 1fr}.grid.cols-4{grid-template-columns:repeat(4,1fr)}}
+
+    /* Hero */
+    .hero{padding:2rem 0 1.5rem}
+    .hero .banner{display:flex;flex-direction:column;gap:1rem;padding:1.25rem;border-radius:18px;border:1px solid var(--line);
+      background:linear-gradient(135deg, color-mix(in oklab,var(--glass),transparent 30%), transparent);
+      backdrop-filter: blur(8px) saturate(130%); box-shadow: var(--shadow)}
+    .kpis{display:flex;gap:.75rem;flex-wrap:wrap}
+    .kpi{padding:.5rem .8rem;border-radius:999px;border:1px dashed var(--line);font-size:.9rem;opacity:.9}
+
+    /* Section cards */
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin:.5rem 0 1rem}
+    .neo-title{font-weight:900;letter-spacing:.2px;border-bottom:4px solid var(--fg);padding-bottom:.25rem}
+    .cards{display:grid;gap:1rem}
+    @media(min-width:820px){.cards{grid-template-columns:1fr 1fr}}
+    @media(min-width:1100px){.cards{grid-template-columns:1fr 1fr 1fr}}
+    .card{position:relative;border:1px solid var(--line);border-radius:16px;padding:1rem;background:linear-gradient(145deg, color-mix(in oklab,var(--card),#fff 2%), color-mix(in oklab,var(--card),#000 6%));box-shadow:var(--shadow)}
+    .glass{background:linear-gradient(180deg, color-mix(in oklab,var(--glass),transparent 10%), transparent);backdrop-filter: blur(10px) saturate(140%)}
+    .skeuo{box-shadow: inset 0 1px 0 rgba(255,255,255,.04), inset 0 -1px 0 rgba(0,0,0,.2), var(--shadow)}
+    .neo{border:3px solid currentColor;box-shadow:none;background:color-mix(in oklab,var(--card), transparent 0%)}
+    .role{display:flex;flex-direction:column;gap:.5rem;border-top:1px dashed var(--line);padding-top:.8rem;margin-top:.8rem}
+    .role h4{margin:0;font-size:1rem}
+    .role p{margin:0;color:var(--muted);font-size:.95rem}
+    .pill{display:inline-flex;gap:.4rem;align-items:center;font-size:.78rem;border:1px solid var(--line);padding:.25rem .5rem;border-radius:999px}
+
+    /* Onboarding mini-wizards inline (no overlays) */
+    .wizard{display:grid;gap:.6rem;border:1px dashed var(--line);border-radius:14px;padding:.75rem}
+    .wizard .steps{display:flex;gap:.25rem}
+    .dot{width:.5rem;height:.5rem;border-radius:999px;background:var(--line)}
+    .dot.active{background:var(--accent)}
+
+    /* Draggable FAB Dock (no backdrop) */
+    .fab-dock{position:fixed;right:1rem;bottom:1rem;z-index:60;display:flex;flex-direction:column;gap:.5rem}
+    .fab{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:14px;padding:.6rem .8rem;background:linear-gradient(180deg, color-mix(in oklab,var(--card),#fff 2%), color-mix(in oklab,var(--card),#000 6%));box-shadow:var(--shadow);cursor:pointer}
+    .fab:focus-visible{outline:3px solid var(--accent)}
+    .handle{cursor:grab}
+    .handle:active{cursor:grabbing}
+
+    /* Side Panels (no overlay) */
+    .panel{position:fixed;right:1rem;bottom:5.5rem;z-index:55;width:min(420px, 92vw);max-height:78vh;overflow:auto;border:1px solid var(--line);border-radius:16px;padding:1rem;background:linear-gradient(180deg, color-mix(in oklab,var(--glass),transparent 8%), transparent);backdrop-filter: blur(12px) saturate(140%);box-shadow:var(--shadow);display:none}
+    .panel.open{display:block}
+    .panel header{position:sticky;top:0;background:transparent;border-bottom:1px dashed var(--line)}
+    .panel form{display:grid;gap:.6rem;margin-top:.6rem}
+    input, textarea, select{width:100%;padding:.75rem;border:1px solid var(--line);border-radius:12px;background:color-mix(in oklab,var(--card),#000 3%);color:var(--fg)}
+    textarea{min-height:110px;resize:vertical}
+    .row{display:grid;gap:.5rem}
+    @media(min-width:600px){.row.cols-2{grid-template-columns:1fr 1fr}}
+    .muted{color:var(--muted)}
+    .small{font-size:.88rem}
+    .right{margin-left:auto}
+
+    /* Footer */
+    footer{margin-top:2rem;border-top:1px solid var(--line);padding:1rem 0;color:var(--muted);font-size:.95rem}
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: no-preference){
+      .btn,.fab{transition:transform .12s ease, box-shadow .2s ease}
+      .card{transition:transform .2s ease, box-shadow .2s ease}
+      .card:hover{transform:translateY(-2px)}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav aria-label="Primary">
+        <div class="brand" aria-label="OPS brand">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="brand-name" data-i18n="brand">OPS Online Support</span>
+        </div>
+        <div class="menu" role="menubar">
+          <a href="#business" role="menuitem" data-i18n="nav.business">Business Operations</a>
+          <a href="#it" role="menuitem" data-i18n="nav.it">IT Support</a>
+          <a href="#contact-center" role="menuitem" data-i18n="nav.cc">Contact Center</a>
+          <a href="#professionals" role="menuitem" data-i18n="nav.prof">Professionals</a>
+        </div>
+        <div class="toggles">
+          <button id="langToggle" class="switch" type="button" role="switch" aria-checked="false" aria-label="Language toggle EN/ES" title="EN / ES">
+            <span class="pill" aria-hidden="true">EN</span>
+            <span data-role="knob"></span>
+            <span class="pill" aria-hidden="true">ES</span>
+          </button>
+          <button id="themeToggle" class="switch" type="button" role="switch" aria-checked="true" aria-label="Theme toggle" title="Dark / Light">
+            <span class="pill" aria-hidden="true">🌙</span>
+            <span data-role="knob"></span>
+            <span class="pill" aria-hidden="true">☀️</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="banner glass skeuo">
+        <h1 class="neo-title" data-i18n="hero.title">Remote Worker Assistants — Skilled. Secure. On-Demand.</h1>
+        <p class="muted" data-i18n="hero.sub">Business Operations, IT Support, Contact Center, and Professionals — matched to your workload, timezone, and SLAs.</p>
+        <div class="kpis">
+          <span class="kpi" data-i18n="hero.kpi1">HCI 2026: Minimalist + Glass + Micro-interactions</span>
+          <span class="kpi" data-i18n="hero.kpi2">Skeuomorphic tactility on actions</span>
+          <span class="kpi" data-i18n="hero.kpi3">Neo-brutalist headings for clarity</span>
+        </div>
+        <div class="grid cols-2">
+          <div class="wizard" aria-label="Hire wizard">
+            <div class="steps"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+            <strong data-i18n="wizard.hire.title">Hire Your Remote Assistant</strong>
+            <p class="muted small" data-i18n="wizard.hire.sub">Three quick answers and we’ll tailor options.</p>
+            <div class="row cols-2">
+              <input id="wNeed" placeholder="Role (e.g., Executive Assistant)" aria-label="Needed role">
+              <input id="wEmail" placeholder="Email" aria-label="Email">
+            </div>
+            <button class="btn primary" id="wSubmit" type="button" data-i18n="wizard.cta">Get Matched →</button>
+          </div>
+          <div class="wizard" aria-label="Apply wizard">
+            <div class="steps"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+            <strong data-i18n="wizard.apply.title">Apply as Remote Talent</strong>
+            <p class="muted small" data-i18n="wizard.apply.sub">Tell us your strengths and availability.</p>
+            <div class="row cols-2">
+              <input id="aRole" placeholder="Role (e.g., L1 Help Desk)" aria-label="Applicant role">
+              <input id="aEmail" placeholder="Email" aria-label="Email">
+            </div>
+            <button class="btn" id="aSubmit" type="button" data-i18n="wizard.cta2">Start Application →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTIONS WILL BE INJECTED HERE -->
+    <section id="directory"></section>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="grid cols-3">
+        <div>
+          <strong data-i18n="footer.terms.title">Terms & Visitor Notice</strong>
+          <p class="small" data-i18n="footer.terms.body">If you send information to OPS Online Support, it will be stored for up to 90 days and then discarded.</p>
+        </div>
+        <div>
+          <strong data-i18n="footer.cookies.title">Cookies & Analysis</strong>
+          <p class="small" data-i18n="footer.cookies.body">We use cookies to analyze on-page behavior; third-party tracking is off by default.</p>
+        </div>
+        <div>
+          <strong>© <span id="year"></span> <span data-i18n="brand">OPS Online Support</span>™</strong>
+          <p class="small" data-i18n="footer.hci">Aligned with HCI 2026 design trends.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- FAB DOCK (draggable, no overlay) -->
+  <div class="fab-dock handle" id="fabDock" aria-label="Quick actions" tabindex="0">
+    <button class="fab" id="fabContact" type="button" data-i18n="fab.contact">✉️ Contact Us</button>
+    <button class="fab" id="fabJoin" type="button" data-i18n="fab.join">🌟 Join Us</button>
+    <button class="fab" id="fabChat" type="button" data-i18n="fab.chat">💬 Chatbot</button>
+    <button class="fab" id="fabNav" type="button" data-i18n="fab.vnav">📚 Vertical Nav</button>
+  </div>
+
+  <!-- PANELS (no backdrop) -->
+  <section class="panel" id="panelContact" aria-label="Contact panel">
+    <header><h3 data-i18n="panel.contact.title">Contact Us</h3></header>
+    <form id="formContact">
+      <div class="row cols-2">
+        <input name="name" required placeholder="Name" aria-label="Name">
+        <input name="email" required type="email" placeholder="Email" aria-label="Email">
+      </div>
+      <input name="need" placeholder="Role or Service (e.g., Executive Assistant)" aria-label="Role or Service">
+      <textarea name="message" placeholder="Tell us what you need..." aria-label="Message"></textarea>
+      <label class="small"><input type="checkbox" required> <span data-i18n="consent.terms">I understand my info may be stored up to 90 days and then discarded.</span></label>
+      <button class="btn primary" type="submit" data-i18n="panel.contact.cta">Send →</button>
+      <div class="muted small" data-i18n="panel.contact.note">Self-origin submit to <code>/api/contact</code>. You can point this to a Cloudflare Worker later.</div>
+    </form>
+  </section>
+
+  <section class="panel" id="panelJoin" aria-label="Join panel">
+    <header><h3 data-i18n="panel.join.title">Join Us</h3></header>
+    <form id="formJoin">
+      <div class="row cols-2">
+        <input name="name" required placeholder="Name" aria-label="Name">
+        <input name="email" required type="email" placeholder="Email" aria-label="Email">
+      </div>
+      <div class="row cols-2">
+        <input name="role" required placeholder="Target Role (e.g., L1 Help Desk)" aria-label="Target Role">
+        <input name="location" placeholder="Location / Timezone" aria-label="Location">
+      </div>
+      <input name="links" placeholder="LinkedIn / Portfolio (optional)" aria-label="Links">
+      <label class="small"><input type="checkbox" required> <span data-i18n="consent.terms">I understand my info may be stored up to 90 days and then discarded.</span></label>
+      <button class="btn primary" type="submit" data-i18n="panel.join.cta">Apply →</button>
+      <div class="muted small" data-i18n="panel.join.note">Self-origin submit to <code>/api/join</code>. Wire it to your Cloudflare Worker when ready.</div>
+    </form>
+  </section>
+
+  <section class="panel" id="panelChat" aria-label="Chatbot panel">
+    <header><h3 data-i18n="panel.chat.title">Chatbot</h3></header>
+    <div class="small muted" data-i18n="panel.chat.body">This UI is ready to connect to a local BM25 index using <code>ops_bm25_corpus.jsonl</code>. For now this is a placeholder.</div>
+    <form id="formChat" autocomplete="off">
+      <input name="q" placeholder="Ask about roles, services, logistics, SLAs..." aria-label="Chat input">
+      <button class="btn right" type="submit" data-i18n="panel.chat.cta">Search (Local) →</button>
+    </form>
+    <div id="chatResults" class="small" style="margin-top:.75rem"></div>
+  </section>
+
+  <section class="panel" id="panelVNav" aria-label="Vertical navigation">
+    <header><h3 data-i18n="panel.vnav.title">Site Navigation</h3></header>
+    <nav class="small">
+      <ul id="vnavList"></ul>
+    </nav>
+  </section>
+
+  <script nonce="riley-ops-2025">
+  // --- CONFIG (self-origin endpoints; later point to Cloudflare Worker paths) ---
+  const ENDPOINTS = {
+    contact: '/api/contact',
+    join:    '/api/join'
+  };
+
+  // --- TEXT DICTIONARY (EN/ES) ---
+  const TEXT = {
+    en:{
+      brand:"OPS Online Support",
+      nav:{business:"Business Operations", it:"IT Support", cc:"Contact Center", prof:"Professionals"},
+      hero:{
+        title:"Remote Worker Assistants — Skilled. Secure. On-Demand.",
+        sub:"Business Operations, IT Support, Contact Center, and Professionals — matched to your workload, timezone, and SLAs.",
+        kpi1:"HCI 2026: Minimalist + Glass + Micro-interactions",
+        kpi2:"Skeuomorphic tactility on actions",
+        kpi3:"Neo-brutalist headings for clarity"
+      },
+      wizard:{hire:{title:"Hire Your Remote Assistant",sub:"Three quick answers and we’ll tailor options."},
+              apply:{title:"Apply as Remote Talent",sub:"Tell us your strengths and availability."},
+              cta:"Get Matched →", cta2:"Start Application →"},
+      fab:{contact:"✉️ Contact Us",join:"🌟 Join Us",chat:"💬 Chatbot",vnav:"📚 Vertical Nav"},
+      panel:{
+        contact:{title:"Contact Us",cta:"Send →",note:"Self-origin submit to /api/contact. You can point this to a Cloudflare Worker later."},
+        join:{title:"Join Us",cta:"Apply →",note:"Self-origin submit to /api/join. Wire it to your Cloudflare Worker when ready."},
+        chat:{title:"Chatbot",body:"This UI is ready to connect to a local BM25 index using ops_bm25_corpus.jsonl. For now this is a placeholder.",cta:"Search (Local) →"},
+        vnav:{title:"Site Navigation"}
+      },
+      consent:{terms:"I understand my info may be stored up to 90 days and then discarded."},
+      footer:{
+        terms:{title:"Terms & Visitor Notice",body:"If you send information to OPS Online Support, it will be stored for up to 90 days and then discarded."},
+        cookies:{title:"Cookies & Analysis",body:"We use cookies to analyze on-page behavior; third-party tracking is off by default."},
+        hci:"Aligned with HCI 2026 design trends."
+      }
+    },
+    es:{
+      brand:"OPS Soporte en Línea",
+      nav:{business:"Operaciones de Negocio", it:"Soporte de TI", cc:"Centro de Contacto", prof:"Profesionales"},
+      hero:{
+        title:"Asistentes Remotos — Expertos. Seguros. Bajo Demanda.",
+        sub:"Operaciones de Negocio, Soporte de TI, Centro de Contacto y Profesionales — ajustados a tu carga, zona horaria y SLAs.",
+        kpi1:"HCI 2026: Minimalista + Glass + Micro-interacciones",
+        kpi2:"Tacto seudomórfico en las acciones",
+        kpi3:"Encabezados neo-brutalistas para claridad"
+      },
+      wizard:{hire:{title:"Contrata tu Asistente Remoto",sub:"Tres respuestas rápidas y ajustamos opciones."},
+              apply:{title:"Postula como Talento Remoto",sub:"Cuéntanos tus fortalezas y disponibilidad."},
+              cta:"Encontrar Coincidencias →", cta2:"Iniciar Postulación →"},
+      fab:{contact:"✉️ Contáctanos",join:"🌟 Únete",chat:"💬 Chatbot",vnav:"📚 Navegación Vertical"},
+      panel:{
+        contact:{title:"Contáctanos",cta:"Enviar →",note:"Envío al mismo origen a /api/contact. Luego puedes enlazarlo a un Cloudflare Worker."},
+        join:{title:"Únete",cta:"Postular →",note:"Envío al mismo origen a /api/join. Conéctalo a tu Cloudflare Worker cuando esté listo."},
+        chat:{title:"Chatbot",body:"Esta IU puede conectarse a un índice BM25 local usando ops_bm25_corpus.jsonl. Por ahora es un marcador de posición.",cta:"Buscar (Local) →"},
+        vnav:{title:"Navegación del Sitio"}
+      },
+      consent:{terms:"Entiendo que mi información puede almacenarse hasta 90 días y luego se eliminará."},
+      footer:{
+        terms:{title:"Términos y Aviso al Visitante",body:"Si envías información a OPS Soporte en Línea, se guardará hasta por 90 días y luego se descartará."},
+        cookies:{title:"Cookies y Análisis",body:"Usamos cookies para analizar el comportamiento en la página; el rastreo de terceros está desactivado por defecto."},
+        hci:"Alineado con las tendencias HCI 2026."
+      }
+    }
+  };
+
+  // --- PRODUCT / SERVICE DIRECTORY DATA (EN & ES) ---
+  const DATA = {
+    business:{
+      title:{en:"Business Operations",es:"Operaciones de Negocio"},
+      roles:[
+        { key:"executive_assistant",
+          en:{title:"Executive Assistant", desc:"High-level support for executives including scheduling, communication, and strategic follow-up."},
+          es:{title:"Asistente Ejecutivo", desc:"Soporte de alto nivel a ejecutivos: agenda, comunicaciones y seguimiento estratégico."},
+          tags:["EA","Executive Support","Calendar","Inbox","Follow-up"], ctas:["Get Matched →","Request Proposal →"] },
+        { key:"administrative_assistant",
+          en:{title:"Administrative Assistant", desc:"General office support including document handling, internal coordination, and task management."},
+          es:{title:"Asistente Administrativo", desc:"Soporte general: gestión de documentos, coordinación interna y tareas."},
+          tags:["Admin","Office","Docs","Coordination","Tasks"], ctas:["Get Matched →","Book Intro Call →"] },
+        // Logistics subdomain
+        { key:"air_logistics",
+          en:{title:"Air Logistics Assistant", desc:"Air freight scheduling, cargo tracking, airway bills."},
+          es:{title:"Asistente Logística Aérea", desc:"Programación de carga aérea, rastreo, guías aéreas."},
+          tags:["Logistics","Air","AWB","Tracking","Freight"], ctas:["Request Proposal →"] },
+        { key:"ocean_logistics",
+          en:{title:"Ocean Logistics Assistant", desc:"Container shipping, port coordination, compliance."},
+          es:{title:"Asistente Logística Marítima", desc:"Contenedores, coordinación portuaria, cumplimiento."},
+          tags:["Logistics","Ocean","FCL","LCL","Ports"], ctas:["Request Proposal →"] },
+        { key:"land_logistics",
+          en:{title:"Land Logistics Assistant", desc:"Overland dispatch, routing, proof of delivery."},
+          es:{title:"Asistente Logística Terrestre", desc:"Despacho terrestre, ruteo, comprobantes de entrega."},
+          tags:["Logistics","Land","POD","Routing","Dispatch"], ctas:["Get Matched →"] },
+        { key:"dispatching",
+          en:{title:"Dispatching Assistant", desc:"Driver coordination, load assignments, live tracking."},
+          es:{title:"Asistente de Despacho", desc:"Coordinación de conductores, asignaciones, rastreo en vivo."},
+          tags:["Dispatch","Drivers","Loads","Tracking"], ctas:["Get Matched →"] },
+        { key:"export",
+          en:{title:"Export Assistant", desc:"Export paperwork, outbound compliance, carrier communication."},
+          es:{title:"Asistente de Exportación", desc:"Documentación, cumplimiento de salida, comunicación con transportistas."},
+          tags:["Export","Docs","Compliance","Carriers"], ctas:["Request Proposal →"] },
+        { key:"import",
+          en:{title:"Import Assistant", desc:"Inbound customs clearance, cargo updates, broker liaison."},
+          es:{title:"Asistente de Importación", desc:"Despacho aduanero, actualizaciones, enlace con agentes."},
+          tags:["Import","Customs","Broker","Clearance"], ctas:["Request Proposal →"] },
+        { key:"logistics_am",
+          en:{title:"Logistics Account Manager Assistant", desc:"Client dashboards, KPI tracking, SLA alignment."},
+          es:{title:"Asistente de Account Manager Logístico", desc:"Dashboards, KPIs y alineación a SLAs."},
+          tags:["Account","KPI","SLA","Clients","Logistics"], ctas:["Book Intro Call →"] }
+      ]
+    },
+    it:{
+      title:{en:"IT Support",es:"Soporte de TI"},
+      roles:[
+        { key:"helpdesk_l1",
+          en:{title:"Help Desk Assistant (Level I)", desc:"Basic IT support: password resets, ticket logging, software installations."},
+          es:{title:"Help Desk (Nivel I)", desc:"Soporte básico: reseteo de contraseñas, tickets, instalaciones."},
+          tags:["Help Desk","L1","Tickets","Reset","Install"], ctas:["Get Matched →"] },
+        { key:"helpdesk_l2",
+          en:{title:"Help Desk Assistant (Level II)", desc:"Escalated IT support: system diagnostics, configuration, advanced issue resolution."},
+          es:{title:"Help Desk (Nivel II)", desc:"Soporte escalado: diagnóstico, configuración, resolución avanzada."},
+          tags:["Help Desk","L2","Diagnostics","Config"], ctas:["Request Proposal →"] },
+        { key:"tech_l1",
+          en:{title:"Tech Support Assistant (Level I)", desc:"Hardware/software troubleshooting and tech assistance."},
+          es:{title:"Soporte Técnico (Nivel I)", desc:"Diagnóstico básico HW/SW y asistencia técnica."},
+          tags:["Tech","Troubleshoot","HW","SW","L1"], ctas:["Get Matched →"] },
+        { key:"tech_l2",
+          en:{title:"Tech Support Assistant (Level II)", desc:"Advanced troubleshooting and guided remediation."},
+          es:{title:"Soporte Técnico (Nivel II)", desc:"Diagnóstico avanzado y remediación guiada."},
+          tags:["Tech","Advanced","Remediation","L2"], ctas:["Request Proposal →"] },
+        { key:"devops_fe",
+          en:{title:"DevOps Assistant — Front-End", desc:"Build automation, UI deployments, CI/CD."},
+          es:{title:"DevOps — Front-End", desc:"Automatización de builds, despliegues de UI, CI/CD."},
+          tags:["DevOps","Front-End","CI/CD","Build"], ctas:["Book Intro Call →","Request Proposal →"] },
+        { key:"devops_be",
+          en:{title:"DevOps Assistant — Back-End", desc:"Server management, cloud support, infrastructure scripting."},
+          es:{title:"DevOps — Back-End", desc:"Gestión de servidores, nube y scripting de infraestructura."},
+          tags:["DevOps","Back-End","Cloud","Infra"], ctas:["Book Intro Call →","Request Proposal →"] },
+        { key:"devops_fs",
+          en:{title:"DevOps Assistant — Full Stack", desc:"Pipeline maintenance, test automation, deployment monitoring."},
+          es:{title:"DevOps — Full Stack", desc:"Mantenimiento de pipelines, tests y monitoreo de despliegues."},
+          tags:["DevOps","Full Stack","Pipelines","QA"], ctas:["Request Proposal →"] }
+      ]
+    },
+    cc:{
+      title:{en:"Contact Center",es:"Centro de Contacto"},
+      roles:[
+        { key:"cc_helpdesk_l1l2",
+          en:{title:"Help Desk Assistant (L1 & L2)", desc:"Multichannel customer service and technical support via chat/call/email."},
+          es:{title:"Help Desk (L1 & L2)", desc:"Atención multicanal y soporte técnico por chat/llamada/correo."},
+          tags:["Help Desk","Multichannel","Chat","Call","Email"], ctas:["Get Matched →"] },
+        { key:"cx_assistant",
+          en:{title:"Customer Experience Assistant", desc:"Customer care, ticket handling, empathy-driven interaction."},
+          es:{title:"Asistente de Experiencia del Cliente", desc:"Atención, manejo de tickets e interacción empática."},
+          tags:["CX","CSAT","Tickets","Care"], ctas:["Book Intro Call →"] },
+        { key:"qa_assistant",
+          en:{title:"Quality Assurance Assistant (QA)", desc:"Monitoring agent performance, call analysis, compliance reviews."},
+          es:{title:"Asistente de Calidad (QA)", desc:"Monitoreo de desempeño, análisis de llamadas y cumplimiento."},
+          tags:["QA","Monitoring","Compliance","Calls"], ctas:["Request Proposal →"] },
+        { key:"billing_apar",
+          en:{title:"Billing Assistant (AP/AR)", desc:"Invoice processing, refund requests, billing discrepancy resolution."},
+          es:{title:"Asistente de Facturación (CxP/CxC)", desc:"Facturas, reembolsos y resolución de discrepancias."},
+          tags:["Billing","AP","AR","Invoices"], ctas:["Get Matched →","Request Proposal →"] }
+      ]
+    },
+    prof:{
+      title:{en:"Professionals",es:"Profesionales"},
+      roles:[
+        { key:"csuite",
+          en:{title:"C-Suite Assistant", desc:"Strategic-level assistant for CEOs, COOs, and VPs handling high-level documents, schedules, and meetings."},
+          es:{title:"Asistente C-Suite", desc:"Asistencia estratégica a CEOs/COOs/VPs: documentos, agendas y reuniones."},
+          tags:["C-Suite","Executive","Board","OKR"], ctas:["Request Proposal →"] },
+        { key:"hr_recruiter",
+          en:{title:"HR Recruiter Assistant", desc:"Talent sourcing, interview scheduling, resume review."},
+          es:{title:"Asistente de Reclutamiento", desc:"Búsqueda de talento, agendas de entrevistas y revisión de CV."},
+          tags:["HR","Recruiting","Interviews","Sourcing"], ctas:["Get Matched →"] },
+        { key:"hr_expert",
+          en:{title:"HR Expert Assistant", desc:"Compliance, policy drafting, benefits coordination, employee relations."},
+          es:{title:"Asistente Experto en RR.HH.", desc:"Cumplimiento, políticas, beneficios y relaciones laborales."},
+          tags:["HR","Compliance","Policies","Benefits"], ctas:["Request Proposal →"] },
+        { key:"hcm",
+          en:{title:"HCM Assistant", desc:"HCM platform support (Workday, BambooHR), onboarding, HR analytics."},
+          es:{title:"Asistente HCM", desc:"Soporte a plataformas HCM (Workday, BambooHR), onboarding y analítica."},
+          tags:["HCM","Workday","BambooHR","Onboarding"], ctas:["Book Intro Call →"] },
+        { key:"biz_consultant",
+          en:{title:"Business Consultant Assistant", desc:"Research, presentation design, report formatting for consultants."},
+          es:{title:"Asistente de Consultoría", desc:"Investigación, presentaciones y formateo de informes."},
+          tags:["Consulting","Research","Slides","Reports"], ctas:["Get Matched →"] }
+      ]
+    }
+  };
+
+  // Build Vertical Nav anchors list from sections/roles
+  function buildVNav(){
+    const vnav = document.getElementById('vnavList'); vnav.innerHTML='';
+    const items = [
+      {id:'business', t:DATA.business.title},
+      {id:'it', t:DATA.it.title},
+      {id:'contact-center', t:DATA.cc.title},
+      {id:'professionals', t:DATA.prof.title},
+    ];
+    items.forEach(it=>{
+      const li=document.createElement('li');
+      const a=document.createElement('a'); a.href='#'+it.id; a.textContent=currentLang==='es'?it.t.es:it.t.en;
+      li.appendChild(a); vnav.appendChild(li);
+    });
+  }
+
+  // Render directory sections
+  function renderDirectory(){
+    const root=document.getElementById('directory'); root.innerHTML='';
+    const blocks=[
+      { id:'business', data:DATA.business },
+      { id:'it',       data:DATA.it },
+      { id:'contact-center', data:DATA.cc },
+      { id:'professionals',  data:DATA.prof }
+    ];
+
+    blocks.forEach(block=>{
+      const sec=document.createElement('section');
+      sec.id=block.id;
+      const header=document.createElement('div'); header.className='section-title';
+      const h2=document.createElement('h2'); h2.className='neo-title'; h2.textContent=currentLang==='es'?block.data.title.es:block.data.title.en;
+      const tone=document.createElement('div'); tone.className='pill'; tone.textContent='Minimalist • Glass • Skeuo • Neo';
+      header.append(h2,tone);
+      const cards=document.createElement('div'); cards.className='cards';
+      block.data.roles.forEach(r=>{
+        const c=document.createElement('article'); c.className='card glass skeuo';
+        const title=document.createElement('h3'); title.textContent=currentLang==='es'?r.es.title:r.en.title;
+        const desc=document.createElement('p'); desc.className='muted'; desc.textContent=currentLang==='es'?r.es.desc:r.en.desc;
+        c.append(title,desc);
+
+        const roleWrap=document.createElement('div'); roleWrap.className='role';
+        const small=document.createElement('div'); small.className='small muted'; small.textContent=(currentLang==='es'?'Etiquetas: ':'Tags: ') + r.tags.join(', ');
+        const ctas=document.createElement('div'); ctas.style.display='flex'; ctas.style.flexWrap='wrap'; ctas.style.gap='.5rem';
+        r.ctas.forEach(label=>{
+          const b=document.createElement('button'); b.type='button'; b.className='btn'; b.textContent=label;
+          b.addEventListener('click',()=> openPanel('panelContact')); // All CTAs route to Contact for now
+          ctas.appendChild(b);
+        })
+        roleWrap.append(small,ctas);
+        c.appendChild(roleWrap);
+        cards.appendChild(c);
+      })
+      sec.append(header,cards);
+      root.appendChild(sec);
+    });
+
+    // add a tiny difference: make headings of IT neo-brutalist accent
+    const itSec=document.getElementById('it'); if(itSec) itSec.querySelectorAll('.card').forEach(el=>el.classList.add('neo'));
+  }
+
+  // Language / Theme
+  let currentLang = localStorage.getItem('ops.lang') || 'en';
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('ops.theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+
+  function applyLang(){
+    const dict = TEXT[currentLang];
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const path=el.getAttribute('data-i18n').split('.');
+      let v=dict; for(const p of path){ v=v?.[p]; if(v===undefined) break; }
+      if(typeof v==='string') el.textContent=v;
+    });
+    // update brand in header/footer
+    document.title = (dict.brand || "OPS Online Support") + " — Remote Worker Assistants";
+    renderDirectory();
+    buildVNav();
+  }
+
+  // Toggles
+  document.getElementById('langToggle').addEventListener('click', ()=>{
+    currentLang = (currentLang==='en'?'es':'en');
+    localStorage.setItem('ops.lang', currentLang);
+    applyLang();
+  });
+  document.getElementById('themeToggle').addEventListener('click', ()=>{
+    const next = htmlEl.getAttribute('data-theme')==='dark'?'light':'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('ops.theme', next);
+  });
+
+  // FAB Panels
+  function openPanel(id){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));
+    document.getElementById(id).classList.add('open');
+  }
+  document.getElementById('fabContact').addEventListener('click', ()=>openPanel('panelContact'));
+  document.getElementById('fabJoin').addEventListener('click',    ()=>openPanel('panelJoin'));
+  document.getElementById('fabChat').addEventListener('click',    ()=>openPanel('panelChat'));
+  document.getElementById('fabNav').addEventListener('click',     ()=>openPanel('panelVNav'));
+
+  // Draggable dock (no overlay)
+  (function(){
+    const dock=document.getElementById('fabDock');
+    let dragging=false, sx=0, sy=0, ox=0, oy=0;
+    function onDown(e){ dragging=true; sx=(e.touches?e.touches[0].clientX:e.clientX); sy=(e.touches?e.touches[0].clientY:e.clientY);
+      const rect=dock.getBoundingClientRect(); ox=rect.left; oy=rect.top; e.preventDefault(); }
+    function onMove(e){ if(!dragging) return; const x=(e.touches?e.touches[0].clientX:e.clientX); const y=(e.touches?e.touches[0].clientY:e.clientY);
+      const dx=x-sx, dy=y-sy; dock.style.right='auto'; dock.style.bottom='auto';
+      dock.style.left=Math.max(8, Math.min(window.innerWidth-80, ox+dx))+'px';
+      dock.style.top =Math.max(8, Math.min(window.innerHeight-80, oy+dy))+'px';
+    }
+    function onUp(){ dragging=false; }
+    dock.addEventListener('mousedown', onDown);
+    dock.addEventListener('touchstart', onDown, {passive:false});
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, {passive:false});
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('touchend', onUp);
+  })();
+
+  // Forms -> self-origin endpoints (ready for CF Worker proxy)
+  async function postJSON(url, payload){
+    const res = await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!res.ok) throw new Error('Network error');
+    return res.text().catch(()=> 'OK');
+  }
+  function toast(msg){
+    // lightweight inline toast: aria-live region
+    let node=document.getElementById('aria-live'); if(!node){ node=document.createElement('div'); node.id='aria-live'; node.className='small'; node.setAttribute('aria-live','polite'); document.body.appendChild(node); }
+    node.textContent=msg;
+  }
+
+  document.getElementById('formContact').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd=new FormData(e.currentTarget);
+    const payload=Object.fromEntries(fd.entries());
+    try{ await postJSON(ENDPOINTS.contact, payload); toast(currentLang==='es'?'Enviado.':'Sent.'); e.currentTarget.reset(); }
+    catch{ toast(currentLang==='es'?'Error de red.':'Network error.'); }
+  });
+
+  document.getElementById('formJoin').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd=new FormData(e.currentTarget);
+    const payload=Object.fromEntries(fd.entries());
+    try{ await postJSON(ENDPOINTS.join, payload); toast(currentLang==='es'?'Postulación enviada.':'Application sent.'); e.currentTarget.reset(); }
+    catch{ toast(currentLang==='es'?'Error de red.':'Network error.'); }
+  });
+
+  // Mini wizard buttons route to Contact/Join
+  document.getElementById('wSubmit').addEventListener('click', ()=> openPanel('panelContact'));
+  document.getElementById('aSubmit').addEventListener('click', ()=> openPanel('panelJoin'));
+
+  // Chat placeholder: local echo + hint to BM25 index
+  document.getElementById('formChat').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const q = new FormData(e.currentTarget).get('q')?.toString().trim();
+    const el=document.getElementById('chatResults');
+    if(!q){ el.textContent = currentLang==='es'?'Escribe una consulta.':'Type a query.'; return; }
+    el.innerHTML = (currentLang==='es'
+      ? 'Ejemplo: conecta un buscador BM25 local que cargue <code>ops_bm25_corpus.jsonl</code> y devuelva coincidencias por <em>tags</em> y <em>title/body</em>.'
+      : 'Example: hook a local BM25 search that loads <code>ops_bm25_corpus.jsonl</code> and returns matches by <em>tags</em> and <em>title/body</em>.');
+  });
+
+  // Init
+  document.getElementById('year').textContent = new Date().getFullYear();
+  applyLang();
+  </script>
+</body>
+</html>
